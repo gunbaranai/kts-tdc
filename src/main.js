@@ -7,6 +7,14 @@ if(record == null){
 }
 console.log(record);
 var fromGameover, bgmPlaying = false;
+var canvasWidth = window.innerWidth * window.devicePixelRatio;
+var canvasHeight = window.innerHeight * window.devicePixelRatio;
+var aspectRatio = canvasWidth / canvasHeight;
+if(aspectRatio > 1){
+	scaleRatio = canvasHeight / 1280;
+} else {
+	scaleRatio = canvasWidth / 720;
+}
 
 CarFreeDay.game = new Phaser.Game(720, 1280, Phaser.AUTO, '', null, false, false);
 

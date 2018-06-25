@@ -250,7 +250,7 @@ CarFreeDay.Game.prototype = {
 
     // FPS Counter
     render: function(){
-        this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
-        this.game.debug.pointer(this.game.input.activePointer);
+        //this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
+        //this.game.debug.pointer(this.game.input.activePointer);
     }
 };
