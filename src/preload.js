@@ -5,11 +5,11 @@ CarFreeDay.Preload.prototype = {
     preload: function(){
         this.splash = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
         this.splash.anchor.setTo(0.5);
-        this.splash.scale.setTo(scaleRatio);
+        //this.splash.scale.setTo(scaleRatio);
         
         this.preloadBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY+196, 'preloadbar');
         this.preloadBar.anchor.setTo(0.5);
-        this.preloadBar.scale.setTo(scaleRatio);
+        //this.preloadBar.scale.setTo(scaleRatio);
 
         this.load.setPreloadSprite(this.preloadBar);
 

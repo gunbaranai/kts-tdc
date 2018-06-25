@@ -7,7 +7,7 @@ CarFreeDay.Title.prototype = {
         this.background = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY,'title_bg');
         //this.background = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY,'title_staticbg');
         this.background.anchor.setTo(0.5);
-        this.background.scale.setTo(scaleRatio);
+        //this.background.scale.setTo(scaleRatio);
         this.background.animations.add('loop');
         this.background.animations.play('loop',5,true);
         this.title = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY-370,'title_title');
