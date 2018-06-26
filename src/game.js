@@ -15,9 +15,10 @@ CarFreeDay.Game.prototype = {
         //this.spawnIntervalStep = 725;
         //this.spawnDurationStep = 320;
 
-        this.boardLength = this.game.world.width;
+        this.boardExtension = 100;
+        this.boardLength = this.game.world.width+(2*this.boardExtension);
         this.boardGap = this.boardLength/4;
-        this.boardOX = 0;
+        this.boardOX = -this.boardExtension;
         this.boardOY = (this.game.world.height-this.boardLength)/2;
 
         this.background = this.game.add.tileSprite(0,0,720,1280,'bg');
