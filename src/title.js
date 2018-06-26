@@ -109,19 +109,19 @@ CarFreeDay.Title.prototype = {
         this.tutorialMain = this.game.add.text(this.game.world.centerX+15,this.game.world.centerY-240,"Tumbuk biji kopi dengan mengetuk biji kopi yang terlihat. Mengetuk hal lain selain biji kopi bisa memberikan pinalti.",tutorialMainStyle);
         this.tutorialMain.anchor.setTo(0.5);
 
-        this.tutorialCoffee = this.game.add.sprite(this.game.world.centerX-100,this.game.world.centerY-10,'coffee');
+        this.tutorialCoffee = this.game.add.sprite(this.game.world.centerX-100,this.game.world.centerY-11,'coffee');
         this.tutorialCoffee.anchor.setTo(0.5);
-        this.tutorialSideCoffee = this.game.add.text(this.game.world.centerX+100,this.game.world.centerY-10,"Ketuk",tutorialSideStyle);
+        this.tutorialSideCoffee = this.game.add.text(this.game.world.centerX+100,this.game.world.centerY-11,"Ketuk",tutorialSideStyle);
         this.tutorialSideCoffee.anchor.setTo(0.5);
 
-        this.tutorialOpen = this.game.add.sprite(this.game.world.centerX-100,this.game.world.centerY+140,'open');
+        this.tutorialOpen = this.game.add.sprite(this.game.world.centerX-100,this.game.world.centerY+183,'open');
         this.tutorialOpen.anchor.setTo(0.5);
-        this.tutorialSideOpen = this.game.add.text(this.game.world.centerX+100,this.game.world.centerY+140,"Jangan",tutorialSideStyle);
+        this.tutorialSideOpen = this.game.add.text(this.game.world.centerX+100,this.game.world.centerY+183,"Jangan",tutorialSideStyle);
         this.tutorialSideOpen.anchor.setTo(0.5);
 
-        this.tutorialHead = this.game.add.sprite(this.game.world.centerX-100,this.game.world.centerY+290,'head');
+        this.tutorialHead = this.game.add.sprite(this.game.world.centerX-100,this.game.world.centerY+376,'head');
         this.tutorialHead.anchor.setTo(0.5);
-        this.tutorialSideHead = this.game.add.text(this.game.world.centerX+100,this.game.world.centerY+290,"Jangan",tutorialSideStyle);
+        this.tutorialSideHead = this.game.add.text(this.game.world.centerX+100,this.game.world.centerY+376,"Jangan",tutorialSideStyle);
         this.tutorialSideHead.anchor.setTo(0.5);
 
         this.animationTimer = 0;
