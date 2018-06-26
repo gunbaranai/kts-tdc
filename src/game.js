@@ -80,13 +80,18 @@ CarFreeDay.Game.prototype = {
                             this.lives -= 1;
                             break;
                     }
-                    sprite.activeDuration = 500;
+                    sprite.activeDuration = 2*this.spawnDuration/3;
                 }
             },this);
         }
 
         // Create mute button
-        this.soundToggle = this.game.add.sprite(this.game.world.width-70,54,'ui_soundon');
+        if(!this.game.sound.mute){
+            sndSpr = 'ui_soundon';
+        } else {
+            sndSpr = 'ui_soundoff';
+        }
+        this.soundToggle = this.game.add.sprite(this.game.world.width-70,54,sndSpr);
         this.soundToggle.anchor.setTo(0.5);
         this.soundToggle.inputEnabled = true;
         this.soundToggle.events.onInputDown.add(function(sprite){
@@ -108,28 +113,28 @@ CarFreeDay.Game.prototype = {
         pbr = this.score/40;
         bgm._sound.playbackRate.value = (pbr+100)/100;
 
-        if(this.score > 4300){
-            this.spawnInterval = 60;
-            this.spawnDuration = 600
-        } else if(this.score > 2300){
-            this.spawnInterval = (7250-this.score)/5;
+        if(this.score >= 4300){
+            this.spawnInterval = 100;
             this.spawnDuration = 600;
-        } else if(this.score > 1500){
-            this.spawnInterval = (6750-this.score)/7;
-            this.spawnDuration = (5250-this.score)/6;
-        } else if(this.score > 1000){
+        } else if(this.score >= 2300){
+            this.spawnInterval = (4750-this.score)/5;
+            this.spawnDuration = 600;
+        } else if(this.score >= 1550){
+            this.spawnInterval = (5250-this.score)/6;
+            this.spawnDuration = (6750-this.score)/7;
+        } else if(this.score >= 1000){
             this.spawnInterval = (4000-this.score)/4;
             this.spawnDuration = (4300-this.score)/4;
-        } else if(this.score > 900){
+        } else if(this.score >= 950){
             this.spawnInterval = 775;
             this.spawnDuration = 850;
-        } else if(this.score > 600){
+        } else if(this.score >= 650){
             this.spawnInterval = (2500-this.score)/2;
             this.spawnDuration = (2600-this.score)/2;
-        } else if(this.score > 500){
+        } else if(this.score >= 550){
             this.spawnInterval = (2500-this.score)/2;
             this.spawnDuration = 1000;
-        } else if(this.score > 300){
+        } else if(this.score >= 300){
             this.spawnInterval = (1000-this.score)*2;
             this.spawnDuration = 1000;
         }
@@ -179,7 +184,7 @@ CarFreeDay.Game.prototype = {
                             mole.type = 'head';
                             mole.loadTexture('head');
                         }
-                    } else if(this.score > 2300){
+                    } else if(this.score > 2250){
                         var coffeeSum = (7250-this.score)/100;
                         if(seed < coffeeSum){
                             mole.type = 'coffee';
@@ -192,7 +197,7 @@ CarFreeDay.Game.prototype = {
                             mole.loadTexture('head');
                         }
                     // Third phase, 60 | 30 | 10
-                    } else if(this.score > 250){
+                    } else if(this.score > 100){
                         if(seed > 50){
                             mole.type = 'coffee';
                             mole.loadTexture('coffee');
@@ -204,7 +209,7 @@ CarFreeDay.Game.prototype = {
                             mole.loadTexture('head');
                         }
                     // Second phase, 80 | 20 | 0
-                    } else if(this.score > 100){
+                    } else if(this.score >= 0){
                         if(seed > 25){
                             mole.type = 'coffee';
                             mole.loadTexture('coffee');

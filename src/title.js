@@ -158,7 +158,12 @@ CarFreeDay.Title.prototype = {
         this.clickSound = this.game.add.audio('hit');
 
         // Mute button
-        this.soundToggle = this.game.add.sprite(this.game.world.width-70,54,'ui_soundon');
+        if(!this.game.sound.mute){
+            sndSpr = 'ui_soundon';
+        } else {
+            sndSpr = 'ui_soundoff';
+        }
+        this.soundToggle = this.game.add.sprite(this.game.world.width-70,54,sndSpr);
         this.soundToggle.anchor.setTo(0.5);
         this.soundToggle.inputEnabled = true;
         this.soundToggle.events.onInputDown.add(function(sprite){
