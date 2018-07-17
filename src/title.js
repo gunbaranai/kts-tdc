@@ -203,7 +203,7 @@ CarFreeDay.Title.prototype = {
                     this.playButton();
                 }
             }
-        } else {
+        } else if(fromGameover && !this.tutorialStuffs.visible){
             this.title.visible = false;
             this.adBack.visible = true;
             this.closeGameover.visible = true;
@@ -213,6 +213,9 @@ CarFreeDay.Title.prototype = {
             this.centralScoreNumber.visible = true;
             this.centralScoreSprite.visible = true;
             this.centralScoreRecord.visible = true;
+        } else {
+            this.replay.visible = false;
+            this.share.visible = false;
         }
 
         if(this.tutorialCoffee.visible && this.tutorialOpen.visible && this.tutorialHead.visible){
