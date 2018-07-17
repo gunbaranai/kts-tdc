@@ -43,6 +43,7 @@ CarFreeDay.Game.prototype = {
         this.clickSound = this.game.add.audio('hit');
         this.correctSound = this.game.add.audio('correct');
         this.wrongSound = this.game.add.audio('wrong');
+        this.emptySound = this.game.add.audio('empty');
 
         // Creates rice cookersz
         this.moles = this.game.add.group();
@@ -78,6 +79,7 @@ CarFreeDay.Game.prototype = {
                             break;
                         default:
                             this.lives -= 1;
+                            this.emptySound.play();
                             break;
                     }
                     sprite.activeDuration = 2*this.spawnDuration/3;

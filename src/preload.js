@@ -52,6 +52,7 @@ CarFreeDay.Preload.prototype = {
         this.load.audio('correct','assets/audio/correct.ogg');
         this.load.audio('wrong','assets/audio/wrong.ogg');
         this.load.audio('hit','assets/audio/hit.ogg');
+        this.load.audio('empty','assets/audio/empty.ogg');
 
         this.load.audio('bgm','assets/audio/bgm.ogg');
     },
