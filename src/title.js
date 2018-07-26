@@ -213,6 +213,12 @@ CarFreeDay.Title.prototype = {
             this.centralScoreNumber.visible = true;
             this.centralScoreSprite.visible = true;
             this.centralScoreRecord.visible = true;
+            rewardedVideo.show();
+            rewardedVideo.on("reward", function(reward, error){
+                if (reward && reward.amount > 0){
+                    extraLive = true;
+                }
+            });
         } else {
             this.replay.visible = false;
             this.share.visible = false;
@@ -266,7 +272,11 @@ CarFreeDay.Title.prototype = {
     // Game: *exists*
     playButton: function(){
         lastScore = 0;
-        lives = 20;
+        if(extraLive){
+            lives = 50;
+        } else {
+            lives = 20;
+        }
         this.clickSound.play();
         this.game.state.start('Game');
     },
@@ -274,7 +284,11 @@ CarFreeDay.Title.prototype = {
     // Replay
     replayButton: function(){
         lastScore = 0;
-        lives = 20;
+        if(extraLive){
+            lives = 50;
+        } else {
+            lives = 20;
+        }
         this.clickSound.play();
         this.game.state.start('Game');
     },
