@@ -7,6 +7,9 @@ CarFreeDay.Game.prototype = {
     },
     // Create
     create: function(){
+        extraLive = false;
+        interstitialShown = false;
+        rewardedVideoShown = false;
         this.activationDelay = 0;
         this.lives = lives;
         this.score = 0;
@@ -105,6 +108,8 @@ CarFreeDay.Game.prototype = {
                 this.game.sound.mute = false;
             }
         },this);
+
+        this.loadWalls();
     },
 
     // Update
@@ -150,31 +155,7 @@ CarFreeDay.Game.prototype = {
                     mole.active = true;
                     seed = this.game.rnd.integerInRange(1,100);
                     console.log(seed);
-                    /*
-                    // Final phase, 20 | 40 | 40
-                    if(this.score > 3600){
-                        if(seed > 80){
-                            mole.type = 'coffee';
-                            mole.loadTexture('coffee');
-                        } else if(seed > 40){
-                            mole.type = 'empty';
-                            mole.loadTexture('open');
-                        } else {
-                            mole.type = 'head';
-                            mole.loadTexture('head');
-                        }
-                    // Fourth phase, 40 | 40 | 20
-                    } else if(this.score > 1800){
-                        if(seed > 60){
-                            mole.type = 'coffee';
-                            mole.loadTexture('coffee');
-                        } else if(seed > 20){
-                            mole.type = 'empty';
-                            mole.loadTexture('open');
-                        } else {
-                            mole.type = 'head';
-                            mole.loadTexture('head');
-                        }*/
+                    
                     if(this.score > 4250){
                         if(seed < 30){
                             mole.type = 'coffee';
@@ -249,11 +230,32 @@ CarFreeDay.Game.prototype = {
 
         if(this.lives < 1){
             // Gameover
+            this.lwClose.start();
+            this.rwClose.start();
             fromGameover = true;
             lastScore = this.score;
             this.lives = 0;
-            this.game.state.start('Title');
+            if(this.lwClose.onComplete && this.rwClose.onComplete){
+                rewardedVideo.load();
+                interstitial.load();
+                this.game.state.start('Title');
+            }
         }
+    },
+
+    loadWalls: function(){
+        this.leftWall = this.game.add.sprite(0, this.game.world.centerY, 'wall_l');
+        this.leftWall.anchor.setTo(0.5);
+        //this.leftWall.x = this.game.world.centerX-(this.leftWall.width/2);
+        this.leftWall.x = 0 - (this.leftWall.width/2);
+        this.lwOpen = this.game.add.tween(this.leftWall).to({x:0-(this.leftWall.width/2)},2500,Phaser.Easing.Bounce.Out);
+        this.lwClose = this.game.add.tween(this.leftWall).to({x:this.game.world.centerX-(this.leftWall.width/2)},2500,Phaser.Easing.Bounce.Out);
+        this.rightWall = this.game.add.sprite(0, this.game.world.centerY, 'wall_r');
+        this.rightWall.anchor.setTo(0.5);
+        //this.rightWall.x = this.game.world.centerX+(this.rightWall.width/2);
+        this.rightWall.x = this.game.world.width + (this.rightWall.width/2);
+        this.rwOpen = this.game.add.tween(this.rightWall).to({x:this.game.world.width+(this.rightWall.width/2)},2500,Phaser.Easing.Bounce.Out);
+        this.rwClose = this.game.add.tween(this.rightWall).to({x:this.game.world.centerX+(this.rightWall.width/2)},2500,Phaser.Easing.Bounce.Out);
     },
 
     // FPS Counter

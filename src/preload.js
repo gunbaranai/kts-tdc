@@ -13,6 +13,15 @@ CarFreeDay.Preload.prototype = {
 
         this.load.setPreloadSprite(this.preloadBar);
 
+        this.loadImages();
+        this.loadAudio();    
+    },
+
+    create: function(){
+        this.state.start('Title');
+    },
+
+    loadImages: function(){
         this.load.spritesheet('title_bg','assets/images/title_bg.png',720,1280);
         //this.load.image('title_staticbg','assets/images/title_staticbg.png')
         this.load.image('title_title','assets/images/title_title.png');
@@ -27,6 +36,7 @@ CarFreeDay.Preload.prototype = {
         this.load.image('ui_help','assets/images/ui_help.png');
         this.load.image('ui_tutorial','assets/images/ui_tutorial.png');
         this.load.image('ui_credits','assets/images/ui_credits.png');
+        this.load.image('ui_ad','assets/images/ui_ad.png');
         this.load.image('ui_soundon','assets/images/ui_sndon.png');
         this.load.image('ui_soundoff','assets/images/ui_sndoff.png');
 
@@ -34,6 +44,7 @@ CarFreeDay.Preload.prototype = {
         //this.load.image('shadow','assets/images/shadow.png');
 
         this.load.image('live','assets/images/live.png');
+        this.load.spritesheet('star','assets/images/star.png',102,90);
 
         this.load.image('idle','assets/images/m-idle.png');
         this.load.image('open','assets/images/m-open.png');
@@ -48,6 +59,11 @@ CarFreeDay.Preload.prototype = {
         this.load.image('p_nice','assets/images/p-nice.png');
         this.load.image('p_magnifico','assets/images/p-magnifico.png');
 
+        this.load.image('wall_l','assets/images/wall-l.png');
+        this.load.image('wall_r','assets/images/wall-r.png');
+    },
+
+    loadAudio: function(){
         this.load.audio('applause','assets/audio/applause.ogg');
         this.load.audio('correct','assets/audio/correct.ogg');
         this.load.audio('wrong','assets/audio/wrong.ogg');
@@ -55,11 +71,5 @@ CarFreeDay.Preload.prototype = {
         this.load.audio('empty','assets/audio/empty.ogg');
 
         this.load.audio('bgm','assets/audio/bgm.ogg');
-
-        rewardedVideo.load();
-        rewardedVideoReady = rewardedVideo.ready();
-    },
-    create: function(){
-        this.state.start('Title');
     }
 };
