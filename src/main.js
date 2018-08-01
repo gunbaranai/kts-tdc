@@ -1,5 +1,6 @@
 var CarFreeDay = CarFreeDay || {};
-var lives = 20, lastScore = 0;
+var lives = 20;
+var lastScore = 0;
 var extraLive = false;
 var record = localStorage.getItem("record");
 if(record == null){
@@ -8,19 +9,10 @@ if(record == null){
 }
 console.log(record);
 var fromGameover, bgmPlaying = false;
-/*var canvasWidth = window.innerWidth * window.devicePixelRatio;
-var canvasHeight = window.innerHeight * window.devicePixelRatio;
-var aspectRatio = canvasWidth / canvasHeight;
-var scaleRatio = 1;
-if(aspectRatio > 1){
-	scaleRatio = canvasHeight / 1280;
-} else {
-	scaleRatio = canvasWidth / 720;
-}*/
 var interstitial, rewardedVideo;
 var interstitialReady, interstitialClosed, interstitialShown,
 	rewardedVideoReady, rewardedVideoClosed, rewardedVideoShown  = false;
-
+	
 function main(){
 	if(!window.Cocoon || !Cocoon.Ad || !Cocoon.Ad.AdMob){
 		alert('Cocoon AdMob plugin not installed');
@@ -29,10 +21,11 @@ function main(){
 
 	Cocoon.Ad.AdMob.configure({
 	    android: {
-	        //appId: "ca-app-pub-3537042140912764~9994705449",
+	        appId: "ca-app-pub-3537042140912764~9994705449",
 	        //banner: "ca-app-pub-3537042140912764/3161402464",
-	        interstitial: "ca-app-pub-3940256099942544/1033173712",
-	        rewardedVideo: "ca-app-pub-3940256099942544/5224354917"
+	        //interstitial: "ca-app-pub-3537042140912764/6604079175",
+	        interstitial: "ca-app-pub-3940256099942544/1033173712"
+	        //rewardedVideo: "ca-app-pub-3940256099942544/5224354917"
 	        //rewardedVideo: "ca-app-pub-3537042140912764/3000570617"
 	    }
 	});
@@ -45,18 +38,18 @@ function main(){
 		interstitialClosed = true;
 	});
 
-	rewardedVideo = Cocoon.Ad.AdMob.createRewardedVideo();
-	rewardedVideo.on("load", function(){
-		rewardedVideoReady = true;
-	});
-	rewardedVideo.on("dismiss", function(){
-		rewardedVideoClosed = true;
-	});
-	rewardedVideo.on("reward", function(reward, error){
-        if (reward && reward.amount > 0){
-            extraLive = true;
-        }
-    });
+	//rewardedVideo = Cocoon.Ad.AdMob.createRewardedVideo();
+	//rewardedVideo.on("load", function(){
+	//	rewardedVideoReady = true;
+	//});
+	//rewardedVideo.on("dismiss", function(){
+	//	rewardedVideoClosed = true;
+	//});
+	//rewardedVideo.on("reward", function(reward, error){
+        //if (reward && reward.amount > 0){
+            //extraLive = true;
+        //}
+    //});
 
 	CarFreeDay.game = new Phaser.Game(720, 1280, Phaser.AUTO, '', null, false, false);
 
@@ -65,7 +58,6 @@ function main(){
 
 	CarFreeDay.game.state.add('Title', CarFreeDay.Title);
 	CarFreeDay.game.state.add('Game', CarFreeDay.Game);
-	//CarFreeDay.game.state.add('Score', CarFreeDay.Score);
 
 	CarFreeDay.game.state.start('Boot');
 }

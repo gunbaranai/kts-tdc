@@ -1,6 +1,7 @@
 @font-face {
-    font-family: "papercuts";
+    font-family: 'papercuts';
     font-style: normal;
     font-weight: 400;
-    src: url("../assets/papercuts-2.ttf");
+    src: local('papercuts'), local('papercuts-Regular'), url("../assets/papercuts-2.ttf") format('truetype');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }

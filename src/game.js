@@ -9,7 +9,7 @@ CarFreeDay.Game.prototype = {
     create: function(){
         extraLive = false;
         interstitialShown = false;
-        rewardedVideoShown = false;
+        //rewardedVideoShown = false;
         this.activationDelay = 0;
         this.lives = lives;
         this.score = 0;
@@ -32,16 +32,16 @@ CarFreeDay.Game.prototype = {
         this.top = this.game.add.sprite(this.game.world.centerX,48,'ui_top');
         this.top.anchor.setTo(0.5);
 
-        var scoreStyle = { font: "40px papercuts", fill: "#ffffff", align: "left", strokeThickness: 5 };
+        //var scoreStyle = { font: "40px papercuts", fill: "#ffffff", align: "left", strokeThickness: 5 };
         //var numberStyle = { font: "40px papercuts", fill: "#ffffff", align: "left", strokeThickness: 5 };
-        this.scoreText = this.game.add.text(10,-5,"Score: ",scoreStyle);
-        this.recordText = this.game.add.text(10,30,"Record: ",scoreStyle);
-        this.scoreNumber = this.game.add.text(150,-5,lastScore,scoreStyle);
-        this.recordNumber = this.game.add.text(150,30,record,scoreStyle);
+        this.scoreText = this.game.add.bitmapText(10,-5,'papercuts',"Score: ",40);
+        this.recordText = this.game.add.bitmapText(10,30,'papercuts',"Record: ",40);
+        this.scoreNumber = this.game.add.bitmapText(150,-5,'papercuts',lastScore,40);
+        this.recordNumber = this.game.add.bitmapText(150,30,'papercuts',""+record+"",40);
 
-        var liveStyle = { font: "50px papercuts", fill: "#ffffff", align: "right", strokeThickness: 10 };
+        //var liveStyle = { font: "50px papercuts", fill: "#ffffff", align: "right", strokeThickness: 10 };
         this.liveIcon = this.game.add.sprite(this.game.world.width-320,15,'live');
-        this.liveNumber = this.game.add.text(this.game.world.width-270,15,"x"+this.lives,liveStyle);
+        this.liveNumber = this.game.add.bitmapText(this.game.world.width-270,15,'papercuts',"x"+this.lives,50);
 
         this.clickSound = this.game.add.audio('hit');
         this.correctSound = this.game.add.audio('correct');
@@ -67,7 +67,7 @@ CarFreeDay.Game.prototype = {
             mole.events.onInputDown.add(function(sprite){
                 this.clickSound.play();
                 if(sprite.type != '' && !sprite.hit){
-                    console.log('hit!');
+                    //console.log('hit!');
                     sprite.hit = true;
                     switch(sprite.type){
                         case 'coffee':
@@ -154,7 +154,7 @@ CarFreeDay.Game.prototype = {
                 if(!mole.active){
                     mole.active = true;
                     seed = this.game.rnd.integerInRange(1,100);
-                    console.log(seed);
+                    //console.log(seed);
                     
                     if(this.score > 4250){
                         if(seed < 30){
@@ -235,11 +235,6 @@ CarFreeDay.Game.prototype = {
             fromGameover = true;
             lastScore = this.score;
             this.lives = 0;
-            if(this.lwClose.onComplete && this.rwClose.onComplete){
-                rewardedVideo.load();
-                interstitial.load();
-                this.game.state.start('Title');
-            }
         }
     },
 
@@ -256,6 +251,15 @@ CarFreeDay.Game.prototype = {
         this.rightWall.x = this.game.world.width + (this.rightWall.width/2);
         this.rwOpen = this.game.add.tween(this.rightWall).to({x:this.game.world.width+(this.rightWall.width/2)},2500,Phaser.Easing.Bounce.Out);
         this.rwClose = this.game.add.tween(this.rightWall).to({x:this.game.world.centerX+(this.rightWall.width/2)},2500,Phaser.Easing.Bounce.Out);
+
+        //this.lwClose.onComplete.addOnce(function(){
+            this.rwClose.onComplete.addOnce(function(){
+                interstitial.load();
+                //rewardedVideo.load();
+                //rewardedVideoReady = rewardedVideo.isReady();
+                this.game.state.start('Title');
+            }, this);
+        //}, this);
     },
 
     // FPS Counter

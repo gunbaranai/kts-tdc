@@ -13,6 +13,8 @@ CarFreeDay.Preload.prototype = {
 
         this.load.setPreloadSprite(this.preloadBar);
 
+        this.load.bitmapFont('papercuts', 'assets/fonts/papercuts.png', 'assets/fonts/papercuts.fnt');
+
         this.loadImages();
         this.loadAudio();    
     },

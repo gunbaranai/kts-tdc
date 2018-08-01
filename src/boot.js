@@ -3,8 +3,9 @@ var CarFreeDay = CarFreeDay || {};
 CarFreeDay.Boot = function(){};
 CarFreeDay.Boot.prototype = {
     preload: function(){
-        this.load.image('logo','assets/images/preload_bg.png');
-        this.load.image('preloadbar','assets/images/preload_bar.png');
+        //this.game.load.webfont('papercuts', 'papercuts');
+        this.game.load.image('logo','assets/images/preload_bg.png');
+        this.game.load.image('preloadbar','assets/images/preload_bar.png');
     },
     create: function(){
         this.game.stage.backgroundColor = '#000000';
@@ -16,7 +17,7 @@ CarFreeDay.Boot.prototype = {
 
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        this.game.add.text(0, 0, "papercutsFontLoader", {font:"1px papercuts", fill:"#FFFFFF"});
+        //this.game.add.text(0, 0, "papercutsFontLoader", {font:"1px papercuts", fill:"#FFFFFF"});
 
         this.state.start('Preload');
     }

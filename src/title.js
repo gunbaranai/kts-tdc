@@ -1,39 +1,16 @@
 var CarFreeDay = CarFreeDay || {};
 
-var scoreNumberStyle = { font: "75px papercuts", fill: "#ffffff", align: "center", strokeThickness: 10 };
-var scoreThresholdStyle = { font: "90px papercuts", fill: "#ffffff", align: "center", strokeThickness: 10 };
-var scoreRecordStyle = { font: "35px papercuts", fill: "#ffffff", align: "center", strokeThickness: 5 };
-var tutorialTitleStyle = { font: "75px papercuts", fill: "#ffffff", align: "left", strokeThickness: 10 };
-var tutorialMainStyle = {
-    font: "45px papercuts",
-    fill: "#ffffff",
-    align: "center",
-    strokeThickness: 7,
-    wordWrap: true,
-    wordWrapWidth: 575
-};
-var tutorialSideStyle = { font: "60px papercuts", fill: "#ffffff", align: "center", strokeThickness: 8 };
-var adTitleStyle = { font: "45px papercuts", fill: "#ffffff", align: "center", strokeThickness: 7 };
-var adTextStyle = {
-    font: "35px papercuts",
-    fill: "#ffffff",
-    align: "center",
-    strokeThickness: 5,
-    wordWrap: true,
-    wordWrapWidth: 500
-};
-
 CarFreeDay.Title = function(){};
 CarFreeDay.Title.prototype = {
     // Create title objects (background, buttons, etc)
     create: function(){
-
+        this.stars = 0;
         this.loadBackround();
         this.loadUI();
         this.loadGameOver();
-        this.loadAdPrompt();
+        //this.loadAdPrompt();
         this.loadTutorial();
-        //this.loadStars();
+        this.loadStars();
         this.loadSocial();
         this.loadMuteButton();
         this.loadWalls();
@@ -57,10 +34,11 @@ CarFreeDay.Title.prototype = {
         if(!fromGameover && !this.tutorialStuffs.visible){
             this.title.visible = true;
             this.adBack.visible = false;
-            this.adStuffs.visible = false;
+            //this.adStuffs.visible = false;
             this.closeGameover.visible = false;
             this.replay.visible = false;
             this.share.visible = false;
+            this.allStars.visible = false;
             this.centralScoreText.visible = false;
             this.centralScoreNumber.visible = false;
             this.centralScoreSprite.visible = false;
@@ -85,12 +63,13 @@ CarFreeDay.Title.prototype = {
             }
             this.title.visible = false;
             this.adBack.visible = true;
-            this.adStuffs.visible = true;
-            this.adWatchButton.visible = true;
-            this.closeGameover.visible = false;
+            //this.adStuffs.visible = true;
+            //this.adWatchButton.visible = true;
+            this.closeGameover.visible = true;
+            this.allStars.visible = true;
             this.centralScoreText.visible = true;
             this.centralScoreNumber.visible = true;
-            this.centralScoreSprite.visible = false;
+            this.centralScoreSprite.visible = true;
             this.centralScoreRecord.visible = true;
 
             if(interstitialReady && !interstitialShown){
@@ -103,31 +82,30 @@ CarFreeDay.Title.prototype = {
                 this.replay.visible = true;
                 this.share.visible = true;
             }
-            
-            if(rewardedVideoReady && !rewardedVideoShown && interstitialShown && !this.wallsOpened){
+            //rewardedVideoReady = rewardedVideo.isReady();
+            if(interstitialShown && !this.wallsOpened){
                 this.lwOpen.start();
                 this.rwOpen.start();
                 if(this.lwOpen.onComplete && this.rwOpen.onComplete){
                     this.leftWall.x = 0-(this.leftWall.width/2);
                     this.rightWall.x = this.game.world.width+(this.rightWall.width/2);
                     this.wallsOpened = true;
+                    //rewardedVideo.show();
                 }
-                //rewardedVideo.show();
-                interstitialClosed = false;
-            }
-
-            if(rewardedVideoShown){
-                this.centralScoreSprite.visible = true;
-                this.closeGameover.visible = true;
-                this.adStuffs.visible = false;
-                rewardedVideoClosed = false;
-            }
+                //interstitialClosed = false;
+            }// else if(rewardedVideoShown){
+                //this.centralScoreSprite.visible = true;
+                //this.closeGameover.visible = true;
+                //this.adStuffs.visible = false;
+                //rewardedVideoClosed = false;
+            //}
         } else {
             this.play.visible = false;
             this.replay.visible = false;
             this.share.visible = false;
+            this.allStars.visible = false;
             this.closeGameover.visible = false;
-            this.adWatchButton.visible = false;
+            //this.adWatchButton.visible = false;
         }
 
         if(this.tutorialCoffee.visible && this.tutorialOpen.visible && this.tutorialHead.visible){
@@ -143,13 +121,19 @@ CarFreeDay.Title.prototype = {
                 this.tutorialHead.loadTexture('head');
             }
         }
+
+        if(this.newRecord){
+            this.blinkTimer += this.game.time.elapsed;
+            if( this.blinkTimer >= 1000 ){
+                this.blinkTimer = 0;
+                this.centralScoreRecord.visible = !this.centralScoreRecord.visible;
+            }
+        }
     },
 
     loadBackround: function(){
         this.background = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY,'title_bg');
-        //this.background = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY,'title_staticbg');
         this.background.anchor.setTo(0.5);
-        //this.background.scale.setTo(scaleRatio);
         this.background.animations.add('loop');
         this.background.animations.play('loop',5,true);
         this.title = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY-370,'title_title');
@@ -160,21 +144,18 @@ CarFreeDay.Title.prototype = {
         // Top UI (Score, Record, Lives)
         this.top = this.game.add.sprite(this.game.world.centerX,48,'ui_top');
         this.top.anchor.setTo(0.5);
-        var scoreStyle = { font: "40px papercuts", fill: "#ffffff", align: "left", strokeThickness: 5 };
-        //var numberStyle = { font: "40px papercuts", fill: "#ffffff", align: "left", strokeThickness: 5 };
-        this.scoreText = this.game.add.text(10,-5,"Score: ",scoreStyle);
-        this.recordText = this.game.add.text(10,30,"Record: ",scoreStyle);
-        this.scoreNumber = this.game.add.text(150,-5,lastScore,scoreStyle);
-        this.recordNumber = this.game.add.text(150,30,record,scoreStyle);
+        this.scoreText = this.game.add.bitmapText(10,-5,'papercuts',"Score: ",40);
+        this.recordText = this.game.add.bitmapText(10,30,'papercuts',"Record: ",40);
+        this.scoreNumber = this.game.add.bitmapText(150,-5,'papercuts',""+lastScore+"",40);
+        this.recordNumber = this.game.add.bitmapText(150,30,'papercuts',""+record+"",40);
 
         var liveStyle = { font: "50px papercuts", fill: "#ffffff", align: "right", strokeThickness: 10 };
         this.liveIcon = this.game.add.sprite(this.game.world.width-320,15,'live');
-        this.liveNumber = this.game.add.text(this.game.world.width-270,15,"x"+lives,liveStyle);
+        this.liveNumber = this.game.add.bitmapText(this.game.world.width-270,15,'papercuts',"x"+lives,50);
 
         // Stuffs only appear on the real title screen
         var playText = "TAP TO PLAY";
-        var playStyle = { font: "50px papercuts", fill: "#ffffff", align: "center", strokeThickness: 10 };
-        this.play = this.game.add.text(this.game.world.centerX,this.game.world.centerY-150,playText,playStyle);
+        this.play = this.game.add.bitmapText(this.game.world.centerX,this.game.world.centerY-150,'papercuts',playText,50);
         this.play.anchor.setTo(0.5);
         this.blinkTimer = 0;
     },
@@ -186,18 +167,18 @@ CarFreeDay.Title.prototype = {
         this.adBack = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY,'ui_gameover');
         this.adBack.anchor.setTo(0.5);
 
-        this.centralScoreNumber = this.game.add.text(
-            this.game.world.centerX,this.game.world.centerY-225,lastScore,scoreNumberStyle
+        this.centralScoreNumber = this.game.add.bitmapText(
+            this.game.world.centerX,this.game.world.centerY-225,'papercuts',""+lastScore+"",75
         );
         this.centralScoreNumber.anchor.setTo(0.5);
 
-        this.centralScoreText = this.game.add.text(
-            this.game.world.centerX,this.game.world.centerY-115,"",scoreThresholdStyle
+        this.centralScoreText = this.game.add.bitmapText(
+            this.game.world.centerX,this.game.world.centerY-115,'papercuts',"",90
         );
         this.centralScoreText.anchor.setTo(0.5);
 
-        this.centralScoreRecord = this.game.add.text(
-            this.game.world.centerX,this.game.world.centerY-155,"",scoreRecordStyle
+        this.centralScoreRecord = this.game.add.bitmapText(
+            this.game.world.centerX,this.game.world.centerY-285,'papercuts',"",35
         );
         this.centralScoreRecord.anchor.setTo(0.5);
 
@@ -205,21 +186,26 @@ CarFreeDay.Title.prototype = {
         this.centralScoreSprite.anchor.setTo(0.5);
 
         if(lastScore >= 2201){
+            this.stars = 5;
             this.centralScoreSprite.loadTexture('p_magnifico');
             this.centralScoreText.text = "Magnifico!";
             this.applauseSound.play();
         } else if(lastScore < 400){
+            this.stars = 1;
             this.centralScoreText.text = "Fail!";
             if(lastScore == 0){
                 this.centralScoreNumber.text = "0";
             }
         } else if(lastScore < 900){
+            this.stars = 2;
             this.centralScoreSprite.loadTexture('p_bad');
             this.centralScoreText.text = "Bad!";
         } else if(lastScore < 1500){
+            this.stars = 3;
             this.centralScoreSprite.loadTexture('p_good');
             this.centralScoreText.text = "Mediocre!";
         } else if(lastScore <= 2200){
+            this.stars = 4;
             this.centralScoreSprite.loadTexture('p_nice');
             this.centralScoreText.text = "Nice!";
         }
@@ -227,6 +213,7 @@ CarFreeDay.Title.prototype = {
             record = lastScore;
             localStorage.setItem("record", lastScore);
             this.centralScoreRecord.text = "New Record!";
+            this.newRecord = true;
             this.recordNumber.text = record;
             this.applauseSound.play();
         }
@@ -248,28 +235,29 @@ CarFreeDay.Title.prototype = {
     },
 
     loadAdPrompt: function(){
-        this.adTitle = this.game.add.text(
-            this.game.world.centerX,this.game.world.centerY-25,"Belum Magnifico!",adTitleStyle
+        this.adTitle = this.game.add.bitmapText(
+            this.game.world.centerX,this.game.world.centerY-25,'papercuts',"Belum Magnifico!",45
         );
         this.adTitle.anchor.setTo(0.5);
 
-        this.adLiveSprite = this.game.add.sprite(this.game.world.centerX+180,this.game.world.centerY+35,'live');
+        this.adLiveSprite = this.game.add.sprite(this.game.world.centerX+155,this.game.world.centerY+35,'live');
         this.adLiveSprite.anchor.setTo(0.5);
         this.adLiveSprite.scale.setTo(0.5);
 
-        this.adText = this.game.add.text(
-            this.game.world.centerX,this.game.world.centerY+90,
-            "Kamu bisa mendapatkan   x10 saat replay dengan melihat iklan interaktif di bawah ini.",
-            adTextStyle
+        this.adText = this.game.add.bitmapText(
+            this.game.world.centerX,this.game.world.centerY+90,'papercuts',
+            "Kamu bisa mendapatkan  x10\nsaat replay dengan melihat\niklan interaktif di bawah ini.",
+            35
         );
         this.adText.anchor.setTo(0.5);
+        this.adText.align = 'center';
 
         this.adWatchButton = this.game.add.button(
             this.game.world.centerX,this.game.world.centerY+242,'ui_ad',function(){
-                rewardedVideo.show();
-                rewardedVideoReady = false;
-                rewardedVideoShown = true;
-            },this
+                //rewardedVideo.show();
+                //rewardedVideoReady = false;
+                //rewardedVideoShown = true;
+            }, this
         );
         this.adWatchButton.anchor.setTo(0.5);
 
@@ -291,38 +279,38 @@ CarFreeDay.Title.prototype = {
             this.game.world.centerX+300,this.game.world.centerY-470,'ui_close',this.closeTutorial,this
         );
         this.closeTutorialButton.anchor.setTo(0.5);
-        //this.creditsButton = this.game.add.button(this.game.world.centerX,this.game.world.centerY+420,'ui_credits',this.showCredits,this);
-        //this.creditsButton.anchor.setTo(0.5);
 
-        this.tutorialTitle = this.game.add.text(
-            this.game.world.centerX-120,this.game.world.centerY-420,"Cara Main:",tutorialTitleStyle
+        this.tutorialTitle = this.game.add.bitmapText(
+            this.game.world.centerX-120,this.game.world.centerY-420,'papercuts',"Cara Main:",75
         );
         this.tutorialTitle.anchor.setTo(0.5);
-        this.tutorialMain = this.game.add.text(
-            this.game.world.centerX+15,this.game.world.centerY-240,
-            "Tumbuk biji kopi dengan mengetuk biji kopi yang terlihat. Mengetuk hal lain selain biji kopi bisa memberikan pinalti.",
-            tutorialMainStyle
+        this.tutorialMain = this.game.add.bitmapText(
+            this.game.world.centerX,this.game.world.centerY-240,'papercuts',
+            "Tumbuk biji kopi dengan\nmengetuk biji kopi yang terlihat.\n"+
+            "Mengetuk hal lain selain biji kopi\nbisa memberikan pinalti.",
+            45
         );
         this.tutorialMain.anchor.setTo(0.5);
+        this.tutorialMain.align = 'center';
 
         this.tutorialCoffee = this.game.add.sprite(this.game.world.centerX-100,this.game.world.centerY-11,'coffee');
         this.tutorialCoffee.anchor.setTo(0.5);
-        this.tutorialSideCoffee = this.game.add.text(
-            this.game.world.centerX+100,this.game.world.centerY-11,"Ketuk",tutorialSideStyle
+        this.tutorialSideCoffee = this.game.add.bitmapText(
+            this.game.world.centerX+100,this.game.world.centerY-11,'papercuts',"Ketuk",60
         );
         this.tutorialSideCoffee.anchor.setTo(0.5);
 
         this.tutorialOpen = this.game.add.sprite(this.game.world.centerX-100,this.game.world.centerY+183,'open');
         this.tutorialOpen.anchor.setTo(0.5);
-        this.tutorialSideOpen = this.game.add.text(
-            this.game.world.centerX+100,this.game.world.centerY+183,"Jangan",tutorialSideStyle
+        this.tutorialSideOpen = this.game.add.bitmapText(
+            this.game.world.centerX+100,this.game.world.centerY+183,'papercuts',"Jangan",60
         );
         this.tutorialSideOpen.anchor.setTo(0.5);
 
         this.tutorialHead = this.game.add.sprite(this.game.world.centerX-100,this.game.world.centerY+376,'head');
         this.tutorialHead.anchor.setTo(0.5);
-        this.tutorialSideHead = this.game.add.text(
-            this.game.world.centerX+100,this.game.world.centerY+376,"Jangan",tutorialSideStyle
+        this.tutorialSideHead = this.game.add.bitmapText(
+            this.game.world.centerX+100,this.game.world.centerY+376,'papercuts',"Jangan",60
         );
         this.tutorialSideHead.anchor.setTo(0.5);
 
@@ -330,7 +318,6 @@ CarFreeDay.Title.prototype = {
 
         this.tutorialStuffs.add(this.tutorialBack);
         this.tutorialStuffs.add(this.closeTutorialButton);
-        //this.tutorialStuffs.add(this.creditsButton);
         this.tutorialStuffs.add(this.tutorialTitle);
         this.tutorialStuffs.add(this.tutorialMain);
         this.tutorialStuffs.add(this.tutorialSideCoffee);
@@ -376,28 +363,28 @@ CarFreeDay.Title.prototype = {
     },
 
     loadStars: function(){
-        var stars = 5;
         var starTemp = this.game.cache.getImage('star');
-        var startX = this.game.world.centerX-((stars-1)*(starTemp.width/10));
+        var startX = this.game.world.centerX-((this.stars-1)*(starTemp.width/10));
         var star, i, d;
-        this.stars = this.game.add.group();
-        for (i = 0; i < stars; i++) {
-            star = this.stars.create(startX+i*starTemp.width/5, this.game.world.centerY, 'star', 2);
+        this.allStars = this.game.add.group();
+        for (i = 0; i < this.stars; i++) {
+            star = this.allStars.create(startX+i*starTemp.width/5, this.game.world.centerY-350, 'star', 2);
             star.anchor.setTo(0.5);
             star.jump = this.game.add.tween(star)
-                .to({y:this.game.world.centerY-starTemp.height/2},500,Phaser.Easing.Exponential.Out,false)
-                .to({y:this.game.world.centerY},500,Phaser.Easing.Exponential.In,false)
+                .to({y:this.game.world.centerY-350-starTemp.height/2},500,Phaser.Easing.Exponential.Out,false)
+                .to({y:this.game.world.centerY-350},500,Phaser.Easing.Exponential.In,false)
                 .repeatAll(-1)
                 .start();
-            star.animations.add('starLoop');
-            star.animations.play('starLoop',5,true);
+            if(this.stars >= 5){
+                star.animations.add('starLoop');
+                star.animations.play('starLoop',5,true);
+            }
         }
     },
 
     loadWalls: function(){
         this.leftWall = this.game.add.sprite(0, this.game.world.centerY, 'wall_l');
         this.leftWall.anchor.setTo(0.5);
-        //this.leftWall.x = this.game.world.centerX-(this.leftWall.width/2);
         this.leftWall.x = 0 - (this.leftWall.width/2);
         this.lwOpen = this.game.add.tween(this.leftWall)
             .to({x:0-(this.leftWall.width/2)},
@@ -411,7 +398,6 @@ CarFreeDay.Title.prototype = {
         );
         this.rightWall = this.game.add.sprite(0, this.game.world.centerY, 'wall_r');
         this.rightWall.anchor.setTo(0.5);
-        //this.rightWall.x = this.game.world.centerX+(this.rightWall.width/2);
         this.rightWall.x = this.game.world.width + (this.rightWall.width/2);
         this.rwOpen = this.game.add.tween(this.rightWall)
             .to({x:this.game.world.width+(this.rightWall.width/2)},
@@ -463,6 +449,7 @@ CarFreeDay.Title.prototype = {
         } else {
             lives = 20;
         }
+        this.newRecord = false;
         this.clickSound.play();
         this.game.state.start('Game');
     },
@@ -475,6 +462,7 @@ CarFreeDay.Title.prototype = {
         } else {
             lives = 20;
         }
+        this.newRecord = false;
         this.clickSound.play();
         this.game.state.start('Game');
     },
