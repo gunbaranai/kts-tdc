@@ -114,6 +114,16 @@ CarFreeDay.Game.prototype = {
 
     // Update
     update: function(){
+
+        if(this.lives < 1){
+            // Gameover
+            this.lwClose.start();
+            this.rwClose.start();
+            fromGameover = true;
+            lastScore = this.score;
+            this.lives = 0;
+        } else {
+
         this.liveNumber.text = "x"+this.lives;
         this.scoreNumber.text = this.score;
         var pbr;
@@ -228,13 +238,6 @@ CarFreeDay.Game.prototype = {
             }
         }, this);
 
-        if(this.lives < 1){
-            // Gameover
-            this.lwClose.start();
-            this.rwClose.start();
-            fromGameover = true;
-            lastScore = this.score;
-            this.lives = 0;
         }
     },
 
