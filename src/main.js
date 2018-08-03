@@ -23,8 +23,8 @@ function main(){
 	    android: {
 	        appId: "ca-app-pub-3537042140912764~9994705449",
 	        //banner: "ca-app-pub-3537042140912764/3161402464",
-	        //interstitial: "ca-app-pub-3537042140912764/6604079175",
-	        interstitial: "ca-app-pub-3940256099942544/1033173712"
+	        interstitial: "ca-app-pub-3537042140912764/6604079175"
+	        //interstitial: "ca-app-pub-3940256099942544/1033173712"
 	        //rewardedVideo: "ca-app-pub-3940256099942544/5224354917"
 	        //rewardedVideo: "ca-app-pub-3537042140912764/3000570617"
 	    }
