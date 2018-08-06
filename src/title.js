@@ -32,6 +32,7 @@ CarFreeDay.Title.prototype = {
     update: function(){
         // Text blinker
         if(!fromGameover && !this.tutorialStuffs.visible){
+            //this.wallsOpened = true;
             this.title.visible = true;
             this.adBack.visible = false;
             //this.adStuffs.visible = false;
@@ -57,6 +58,7 @@ CarFreeDay.Title.prototype = {
                 }
             }
         } else if(fromGameover && !this.tutorialStuffs.visible){
+            //this.wallsOpened = false;
             if(!this.wallsOpened){
                 this.leftWall.x = this.game.world.centerX-(this.leftWall.width/2);
                 this.rightWall.x = this.game.world.centerX+(this.rightWall.width/2);
@@ -65,27 +67,35 @@ CarFreeDay.Title.prototype = {
             this.adBack.visible = true;
             //this.adStuffs.visible = true;
             //this.adWatchButton.visible = true;
-            this.closeGameover.visible = true;
+            
             this.allStars.visible = true;
             this.centralScoreText.visible = true;
             this.centralScoreNumber.visible = true;
             this.centralScoreSprite.visible = true;
             this.centralScoreRecord.visible = true;
 
-            if(interstitialReady && !interstitialShown){
-                interstitial.show();
-                interstitialReady = false;
-                interstitialShown = true;
-            }
+            if(!interstitialShown){
+                if(interstitialReady){
+                    interstitial.show();
+                    interstitialReady = false;
+                    interstitialFailed = false;
+                    interstitialShown = true;
+                } else if(interstitialFailed){
+                    interstitialReady = false;
+                    interstitialFailed = false;
+                    interstitialShown = true;
+                }
+            } //else {
+                
+            //}
 
-            if(interstitialShown){
-                this.replay.visible = true;
-                this.share.visible = true;
-            }
             //rewardedVideoReady = rewardedVideo.isReady();
             if(interstitialShown && !this.wallsOpened){
                 this.lwOpen.start();
                 this.rwOpen.start();
+                this.closeGameover.visible = true;
+                this.replay.visible = true;
+                this.share.visible = true;
                 if(this.lwOpen.onComplete && this.rwOpen.onComplete){
                     this.leftWall.x = 0-(this.leftWall.width/2);
                     this.rightWall.x = this.game.world.width+(this.rightWall.width/2);

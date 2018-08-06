@@ -10,7 +10,7 @@ if(record == null){
 console.log(record);
 var fromGameover, bgmPlaying = false;
 var interstitial, rewardedVideo;
-var interstitialReady, interstitialClosed, interstitialShown,
+var interstitialReady, interstitialClosed, interstitialShown, interstitialFailed,
 	rewardedVideoReady, rewardedVideoClosed, rewardedVideoShown  = false;
 	
 function main(){
@@ -33,6 +33,9 @@ function main(){
 	interstitial = Cocoon.Ad.AdMob.createInterstitial();
 	interstitial.on("load", function(){
 		interstitialReady = true;
+	});
+	interstitial.on("fail", function(){
+		interstitialFailed = true;
 	});
 	interstitial.on("dismiss", function(){
 		interstitialClosed = true;
