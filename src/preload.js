@@ -60,6 +60,8 @@ CarFreeDay.Preload.prototype = {
         this.load.image('p_good','assets/images/p-good.png');
         this.load.image('p_nice','assets/images/p-nice.png');
         this.load.image('p_magnifico','assets/images/p-magnifico.png');
+        this.load.image('p_sfarzoso','assets/images/p-sfarsozo.png');
+        this.load.image('p_grandioso','assets/images/p-grandioso.png');
 
         this.load.image('wall_l','assets/images/wall-l.png');
         this.load.image('wall_r','assets/images/wall-r.png');

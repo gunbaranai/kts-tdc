@@ -195,10 +195,10 @@ CarFreeDay.Title.prototype = {
         this.centralScoreSprite = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY+100,'p_fail');
         this.centralScoreSprite.anchor.setTo(0.5);
 
-        if(lastScore >= 2201){
-            this.stars = 5;
-            this.centralScoreSprite.loadTexture('p_magnifico');
-            this.centralScoreText.text = "Magnifico!";
+        if(lastScore > 4500){
+            this.stars = 7;
+            this.centralScoreSprite.loadTexture('p_grandioso');
+            this.centralScoreText.text = "Grandioso!";
             this.applauseSound.play();
         } else if(lastScore < 400){
             this.stars = 1;
@@ -218,6 +218,14 @@ CarFreeDay.Title.prototype = {
             this.stars = 4;
             this.centralScoreSprite.loadTexture('p_nice');
             this.centralScoreText.text = "Nice!";
+        } else if(lastScore <= 3300){
+            this.stars = 5;
+            this.centralScoreSprite.loadTexture('p_magnifico');
+            this.centralScoreText.text = "Magnifico!";
+        } else if(lastScore <= 4500){
+            this.stars = 6;
+            this.centralScoreSprite.loadTexture('p_sfarzoso');
+            this.centralScoreText.text = "Sfarzoso!";
         }
         if(lastScore > record){
             record = lastScore;
